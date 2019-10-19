@@ -99,6 +99,15 @@ class PlanController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $plan = PlanModel::find($id);
+        $plan->update($request->all());
+
+        return response([
+
+            'data' => new PlanResource($plan),
+
+        ], RESPONSE::HTTP_CREATED);
     }
 
     /**
