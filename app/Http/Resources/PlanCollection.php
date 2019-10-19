@@ -20,6 +20,9 @@ class PlanCollection extends Resource
             'price' => $this->price,
             'currency' => $this->currency,
             'duration' => $this->duration,
+            'href' => [
+                'link' => route('plans.show', $this->id),
+            ]
         ];
     }
 }
