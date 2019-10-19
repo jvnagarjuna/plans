@@ -96,11 +96,10 @@ class PlanController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, PlanModel $plan)
     {
         //
 
-        $plan = PlanModel::find($id);
         $plan->update($request->all());
 
         return response([
@@ -116,8 +115,14 @@ class PlanController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PlanModel $plan)
     {
-        //
+        $plan->delete();
+
+        return response([
+
+            null,
+
+        ], RESPONSE::HTTP_NO_CONTENT);
     }
 }
