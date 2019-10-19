@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PlanRequest;
 use App\Http\Resources\PlanCollection;
 use App\Http\Resources\PlanResource;
 use Illuminate\Http\Request;
 use Rennokki\Plans\Models\PlanModel;
+use Symfony\Component\HttpFoundation\Response;
 
 class PlanController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index', 'show');
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,9 +45,22 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PlanRequest $request)
     {
         //
+        $plan = PlanModel::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'currency' => $request->currency,
+            'duration' => $request->duration, // in days
+            'metadata' => $request->metadata,
+        ]);
+
+        return response([
+
+            'data' => new PlanResource($plan),
+        ], RESPONSE::HTTP_CREATED);
     }
 
     /**
